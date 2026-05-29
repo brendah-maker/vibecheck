@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Hot Take Meter</title>
+    <style>
+        :root {
+            --primary: #25D366; /* WhatsApp Green for familiar vibe */
+            --dark: #121b22;
+            --light: #f0f2f5;
+            --accent: #007bff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Main Game Container */
+        .game-container {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            min-height: calc(100vh - 60px); /* Leaves exact space for bottom ad */
+            box-sizing: border-box;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--dark);
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+        }
+
+        .statement-card {
+            background: #f8f9fa;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        /* Slider Styling */
+        .slider-wrapper {
+            margin-bottom: 40px;
+        }
+
+        .labels {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #667781;
+            margin-bottom: 10px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 15px;
+            border-radius: 10px;
+            background: #dfe5e7;
+            outline: none;
+            margin: 0;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+
+        .slider::-webkit-slider-thumb:active {
+            transform: scale(1.2);
+        }
+
+        /* Actions */
+        button {
+            background-color: var(--dark);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #202c33;
+        }
+
+        /* Results Screen (Hidden initially) */
+        .results-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .bar-row {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .bar-label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bar-bg {
+            background: #dfe5e7;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 1s ease-out;
+        }
+
+        .bar-fill.community {
+            background: var(--primary);
+        }
+
+        /* Sticky Bottom Ad Space */
+        .ad-banner-sticky {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            height: 60px;
+            background-color: #333;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            border-top: 1px solid #444;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- GAME PLAY SCREEN -->
+        <div id="game-inner">
+            <h2>Today's Community Hot Take 🔥</h2>
+            
+            <div class="statement-card">
+                "AI will completely replace entry-level coding jobs within the next 12 months."
+            </div>
+
+            <div class="slider-wrapper">
+                <div class="labels">
+                    <span>100% Disagree ❌</span>
+                    <span>100% Agree 🤝</span>
+                </div>
+                <input type="range" min="0" max="100" value="50" class="slider" id="opinionSlider">
+            </div>
+
+            <button onclick="submitVote()">See Where You Stand</button>
+        </div>
+
+        <!-- RESULTS SCREEN -->
+        <div id="results-inner" class="results-section">
+            <h2>How You Compare 📊</h2>
+            <p id="comparison-text">Analyzing your perspective...</p>
+
+            <div class="chart-container">
+                <div class="bar-row">
+                    <div class="bar-label"><span>Your Stance</span> <span id="user-score-label">50%</span></div>
+                    <div class="bar-bg"><div id="user-bar" class="bar-fill"></div></div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label"><span>Channel Average</span> <span>74% (Agree)</span></div>
+                    <div class="bar-bg"><div id="community-bar" class="bar-fill community"></div></div>
+                </div>
+            </div>
+
+            <p style="font-size:0.9rem; color:#667781;">Share your result back to the WhatsApp Channel updates!</p>
+            <button onclick="resetGame()" style="background: #dfe5e7; color: var(--dark); margin-top: 10px;">Try Another</button>
+        </div>
+    </div>
+
+    <!-- STICKY AD BANNER (Replace content with your AdSense/Network code) -->
+    <div class="ad-banner-sticky">
+        [ ADVERTISEMENT BANNER PLACEHOLDER - 320x50 / 468x60 ]
+    </div>
+
+    <script>
+        function submitVote() {
+            const sliderValue = document.getElementById('opinionSlider').value;
+            
+            // 1. Hide Game, Show Results
+            document.getElementById('game-inner').style.display = 'none';
+            document.getElementById('results-inner').style.display = 'block';
+
+            // 2. Set dynamic text logic based on what they voted
+            let userStanceText = "";
+            if(sliderValue > 65) {
+                userStanceText = `You strongly agree with this hot take! You lean closer to the tech optimists.`;
+            } else if (sliderValue < 35) {
+                userStanceText = `You highly disagree! You think traditional human talent is safe for now.`;
+            } else {
+                userStanceText = `You are strictly neutral. You see both sides of the coin.`;
+            }
+            document.getElementById('comparison-text').innerText = userStanceText;
+            document.getElementById('user-score-label').innerText = sliderValue + "%";
+
+            // 3. Animate the chart bars loading in
+            setTimeout(() => {
+                document.getElementById('user-bar').style.width = sliderValue + '%';
+                document.getElementById('community-bar').style.width = '74%'; // Hardcoded global channel stat simulation
+            }, 100);
+        }
+
+        function resetGame() {
+            // Simple reset function to toggle views back
+            document.getElementById('game-inner').style.display = 'block';
+            document.getElementById('results-inner').style.display = 'none';
+            document.getElementById('opinionSlider').value = 50;
+            document.getElementById('user-bar').style.width = '0%';
+            document.getElementById('community-bar').style.width = '0%';
+        }
+    </script>
+</body>
+</html>
