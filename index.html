@@ -3,37 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VibeCheck | This or That</title>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>VibeCheck Rapid-Fire</title>
+    <!-- Library for sharing card generation -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         :root {
-            --primary: #00f2fe;
-            --secondary: #4facfe;
-            --accent: #f093fb;
-            --text: #ffffff;
-            /* Vibrant Mesh Colors */
-            --c1: #4f46e5; /* Indigo */
-            --c2: #ec4899; /* Pink */
-            --c3: #06b6d4; /* Cyan */
-            --c4: #f59e0b; /* Amber */
+            --primary: #25D366; /* WhatsApp Green */
+            --dark: #121b22;
+            --light: #f0f2f5;
+            /* Mesh Colors */
+            --c1: #4f46e5; --c2: #ec4899; --c3: #06b6d4; --c4: #f59e0b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
             overflow: hidden;
-            color: var(--text);
-            
-            /* High-Energy Animated Background */
+            /* Animated Background */
             background-color: #000;
             background-image: 
                 radial-gradient(at 0% 0%, var(--c1) 0px, transparent 50%),
@@ -44,16 +36,12 @@
             animation: gradientMove 15s ease infinite;
         }
 
-        @keyframes gradientMove {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
-        }
+        @keyframes gradientMove { 0% { background-position: 0% 0%; } 50% { background-position: 100% 100%; } 100% { background-position: 0% 0%; } }
 
-        #mobile-container {
+        .game-container {
             width: 100%;
-            max-width: 430px;
-            height: 100%;
+            max-width: 450px;
+            height: calc(100vh - 60px); /* Space for Sticky Ad */
             padding: 24px;
             display: flex;
             flex-direction: column;
@@ -61,267 +49,223 @@
             z-index: 10;
         }
 
-        /* Screens */
-        .screen {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            animation: fadeIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+        /* --- Screens --- */
+        .screen { display: none; flex-direction: column; height: 100%; animation: fadeIn 0.3s ease; }
         .screen.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Typography */
-        h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -1.5px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        p { color: rgba(255,255,255,0.9); line-height: 1.5; font-weight: 500; }
-
-        /* Game UI */
-        .header { margin-top: 40px; text-align: center; }
-        
+        /* --- Progress Bar --- */
         .progress-bar {
             width: 100%;
             height: 8px;
             background: rgba(255,255,255,0.2);
             border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-            backdrop-filter: blur(5px);
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #fff, var(--primary));
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        .question-area {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .choice-card {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 45px 20px;
-            border-radius: 28px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        }
-
-        .choice-card:active {
-            transform: scale(0.94);
-            background: rgba(255,255,255,0.3);
-            border-color: #fff;
-        }
-
-        /* Result Card */
-        #result-card {
-            background: linear-gradient(165deg, #1e1e2d 0%, #000 100%);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 32px;
-            padding: 32px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
             margin-bottom: 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
 
-        .vibe-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; color: var(--primary); font-weight: 800; }
-        .vibe-title { font-size: 2.4rem; font-weight: 800; margin: 12px 0 24px 0; background: linear-gradient(to bottom, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* --- Text Styling --- */
+        #round-indicator { color: #fff; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; text-align: center; }
+        #question-wording { color: #fff; font-size: 1.8rem; font-weight: 800; text-align: center; margin: 15px 0 30px 0; }
 
-        .stat-line { margin-bottom: 18px; }
-        .stat-info { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 8px; font-weight: 600; }
-        .stat-outer { height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; }
-        .stat-inner { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 10px; }
-
-        /* Buttons */
-        .btn-main {
-            background: #fff;
-            color: #000;
-            border: none;
-            padding: 22px;
-            border-radius: 24px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-        }
+        /* --- Choice Cards (Hot Take Style) --- */
+        .choices-wrapper { display: flex; flex-direction: column; gap: 15px; flex-grow: 1; justify-content: center; }
         
-        .btn-main:active { transform: scale(0.97); }
+        .choice-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 30px 20px;
+            border-radius: 16px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+            border-left: 6px solid var(--primary); /* Reference to Hot Take style */
+        }
+        .choice-btn:active { transform: scale(0.96); background: #eee; }
 
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
+        .vs-text { text-align: center; color: #fff; font-style: italic; font-weight: bold; opacity: 0.7; margin: 5px 0; }
+
+        /* --- Result Card --- */
+        #result-card {
+            background: #fff;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            color: var(--dark);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .personality-type { font-size: 2rem; font-weight: 800; color: var(--primary); margin: 10px 0; }
+
+        /* --- Sticky Ad --- */
+        .ad-banner-sticky {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            height: 60px;
+            background-color: #121b22;
+            color: #777;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            text-decoration: none;
+            font-size: 0.7rem;
+            z-index: 100;
+            border-top: 1px solid #333;
         }
 
-        .footer-note { font-size: 0.8rem; text-align: center; margin-top: 15px; opacity: 0.8; font-weight: 600; }
-
+        button.share-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
 
-<div id="mobile-container">
-
-    <!-- START SCREEN -->
-    <div id="screen-start" class="screen active">
-        <div class="header">
-            <h1>The Vibe<br>Check.</h1>
-            <p>10 rapid-fire questions to reveal your true lifestyle aesthetic.</p>
+    <div class="game-container">
+        <!-- START SCREEN -->
+        <div id="screen-start" class="screen active" style="justify-content: center; text-align: center;">
+            <h1 style="color:white; font-size: 3rem;">VibeCheck</h1>
+            <p style="color:white; opacity: 0.9;">10 Rounds. Your Style revealed.</p>
+            <button class="choice-btn" onclick="startGame()" style="border-left: none; background: var(--primary); color: white;">Start Rapid-Fire</button>
         </div>
-        <div class="question-area">
-            <button class="btn-main" onclick="startGame()">Start Game</button>
+
+        <!-- GAME SCREEN -->
+        <div id="screen-game" class="screen">
+            <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
+            <div id="round-indicator">ROUND 1 / 10</div>
+            
+            <!-- This is the "Wording" that fills the gap from your image -->
+            <div id="question-wording">Pick your Vibe</div>
+
+            <div class="choices-wrapper">
+                <button class="choice-btn" id="choice-a" onclick="handleChoice('A')">Choice A</button>
+                <div class="vs-text">vs</div>
+                <button class="choice-btn" id="choice-b" onclick="handleChoice('B')">Choice B</button>
+            </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div id="screen-result" class="screen">
+            <div id="result-card">
+                <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold; font-size: 0.8rem; opacity: 0.6;">Your Persona</div>
+                <div class="personality-type" id="vibe-title">Aesthetic Nomad</div>
+                <div id="vibe-stats" style="text-align: left; margin-top: 15px;"></div>
+                <p style="font-size: 0.7rem; margin-top: 20px; opacity: 0.5;">Play at: YourSite.com</p>
+            </div>
+
+            <button class="share-btn" onclick="shareToWhatsApp()">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.319 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.735-.981z"/></svg>
+                Post to WhatsApp Status
+            </button>
         </div>
     </div>
 
-    <!-- GAME SCREEN -->
-    <div id="screen-game" class="screen">
-        <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
-        <div id="round-indicator" style="font-size: 0.9rem; font-weight: 800; color: #fff; letter-spacing: 1px;">ROUND 1</div>
-        <div class="question-area">
-            <div class="choice-card" id="choice-a" onclick="handleSelect('A')">Choice A</div>
-            <div style="text-align: center; font-style: italic; opacity: 0.6; font-weight: 800;">VS</div>
-            <div class="choice-card" id="choice-b" onclick="handleSelect('B')">Choice B</div>
-        </div>
+    <!-- STICKY AD SPACE -->
+    <div class="ad-banner-sticky">
+        ADVERTISEMENT BANNER SPACE (320x50)
     </div>
 
-    <!-- RESULT SCREEN -->
-    <div id="screen-result" class="screen">
-        <div id="result-card">
-            <div class="vibe-label">Your Identity</div>
-            <div class="vibe-title" id="final-vibe">The Aesthetic Explorer</div>
-            <div id="stats-container"></div>
-            <div style="margin-top: 30px; font-size: 0.75rem; opacity: 0.6; font-weight: 700; letter-spacing: 1px;">PLAY AT YOURWEBSITE.COM</div>
-        </div>
+    <script>
+        const gameData = [
+            { cat: "Morning Vibes", a: "☕ Coffee", b: "🍵 Tea", traitA: "High Energy", traitB: "Mindful" },
+            { cat: "Daily Rhythm", a: "🌅 Sunrise", b: "🌇 Sunset", traitA: "Early Bird", traitB: "Night Owl" },
+            { cat: "Living Style", a: "🏙️ City Life", b: "🌲 Nature", traitA: "Urbanist", traitB: "Explorer" },
+            { cat: "Social Battery", a: "📱 Texting", b: "📞 Calling", traitA: "Introvert", traitB: "Extrovert" },
+            { cat: "Treat Yourself", a: "🍕 Pizza", b: "🥗 Salad", traitA: "Soul Foodie", traitB: "Health Nut" },
+            { cat: "Fashion", a: "👟 Sneakers", b: "👞 Formal", traitA: "Casual", traitB: "Sleek" },
+            { cat: "Content", a: "🎬 Movies", b: "📖 Books", traitA: "Visualizer", traitB: "Thinker" },
+            { cat: "Escapism", a: "✈️ Travel", b: "🏠 Home", traitA: "Wanderer", traitB: "Homebody" },
+            { cat: "Focus", a: "🎧 Music", b: "🎙️ Podcast", traitA: "Dreamer", traitB: "Learner" },
+            { cat: "Ambition", a: "🎨 Create", b: "🍿 Consume", traitA: "Maker", traitB: "Enjoyer" }
+        ];
 
-        <button class="btn-main btn-whatsapp" onclick="shareToWhatsApp()">
-            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.319 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.735-.981z"/></svg>
-            Share to WhatsApp Status
-        </button>
-        <p class="footer-note">Challenge your friends to beat your vibe!</p>
-    </div>
+        let currentStep = 0;
+        let scores = {};
 
-</div>
-
-<script>
-    const gameData = [
-        { a: "☕ Coffee", b: "🍵 Tea", traitA: "High Energy", traitB: "Mindful" },
-        { a: "🌅 Sunrise", b: "🌇 Sunset", traitA: "Early Bird", traitB: "Night Owl" },
-        { a: "🏙️ City", b: "🌲 Nature", traitA: "Urbanist", traitB: "Adventurer" },
-        { a: "📱 Texting", b: "📞 Calling", traitA: "Introvert", traitB: "Extrovert" },
-        { a: "🍕 Pizza", b: "🥗 Salad", traitA: "Soul Foodie", traitB: "Health Nut" },
-        { a: "👟 Sneakers", b: "👞 Formal", traitA: "Casual", traitB: "Sleek" },
-        { a: "🎬 Movies", b: "📖 Books", traitA: "Visualizer", traitB: "Thinker" },
-        { a: "✈️ Travel", b: "🏠 Home", traitA: "Wanderer", traitB: "Coziness" },
-        { a: "🎧 Music", b: "🎙️ Podcast", traitA: "Dreamer", traitB: "Learner" },
-        { a: "🎨 Create", b: "🍿 Consume", traitA: "Artist", traitB: "Connoisseur" }
-    ];
-
-    let currentStep = 0;
-    let scores = {};
-
-    function showScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-
-    function startGame() {
-        showScreen('screen-game');
-        updateQuestion();
-    }
-
-    function updateQuestion() {
-        const q = gameData[currentStep];
-        document.getElementById('round-indicator').innerText = `ROUND ${currentStep + 1} / 10`;
-        document.getElementById('choice-a').innerText = q.a;
-        document.getElementById('choice-b').innerText = q.b;
-        document.getElementById('progress').style.width = ((currentStep / 10) * 100) + "%";
-    }
-
-    function handleSelect(side) {
-        const q = gameData[currentStep];
-        const trait = (side === 'A') ? q.traitA : q.traitB;
-        scores[trait] = (scores[trait] || 0) + 1;
-
-        currentStep++;
-        if (currentStep < gameData.length) {
-            updateQuestion();
-        } else {
-            finishGame();
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
-    }
 
-    function finishGame() {
-        showScreen('screen-result');
-        const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-        
-        const p1 = sorted[0] ? sorted[0][0] : "Mysterious";
-        const p2 = sorted[1] ? sorted[1][0] : "Spirit";
-        document.getElementById('final-vibe').innerText = `${p1} ${p2}`;
+        function startGame() {
+            showScreen('screen-game');
+            updateUI();
+        }
 
-        let html = "";
-        sorted.slice(0, 4).forEach(([name, count]) => {
-            const pct = Math.floor((count / 3) * 100); 
-            const randomPct = Math.min(95, pct > 0 ? pct : Math.floor(Math.random() * 40) + 20);
-            html += `
-                <div class="stat-line">
-                    <div class="stat-info"><span>${name}</span><span>${randomPct}%</span></div>
-                    <div class="stat-outer"><div class="stat-inner" style="width: ${randomPct}%"></div></div>
-                </div>
-            `;
-        });
-        document.getElementById('stats-container').innerHTML = html;
-    }
+        function updateUI() {
+            const q = gameData[currentStep];
+            document.getElementById('round-indicator').innerText = `ROUND ${currentStep + 1} / 10`;
+            document.getElementById('question-wording').innerText = q.cat;
+            document.getElementById('choice-a').innerText = q.a;
+            document.getElementById('choice-b').innerText = q.b;
+            document.getElementById('progress').style.width = ((currentStep / 10) * 100) + "%";
+        }
 
-    async function shareToWhatsApp() {
-        const card = document.getElementById('result-card');
-        const vibe = document.getElementById('final-vibe').innerText;
-        
-        const canvas = await html2canvas(card, {
-            backgroundColor: '#000',
-            scale: 2,
-            borderRadius: 32
-        });
-        
-        const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
-        const file = new File([blob], 'my-vibe.png', { type: 'image/png' });
+        function handleChoice(side) {
+            const q = gameData[currentStep];
+            const trait = (side === 'A') ? q.traitA : q.traitB;
+            scores[trait] = (scores[trait] || 0) + 1;
 
-        const text = `I'm a ${vibe}! Check your vibe here: ${window.location.href}`;
+            currentStep++;
+            if (currentStep < gameData.length) {
+                updateUI();
+            } else {
+                showResults();
+            }
+        }
 
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-                await navigator.share({
-                    files: [file],
-                    title: 'My Vibe Check',
-                    text: text
-                });
-            } catch (e) {
+        function showResults() {
+            showScreen('screen-result');
+            const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+            const title = (sorted[0] ? sorted[0][0] : "Mysterious") + " " + (sorted[1] ? sorted[1][0] : "Soul");
+            document.getElementById('vibe-title').innerText = title;
+
+            let statsHtml = "";
+            sorted.slice(0, 3).forEach(([name, count]) => {
+                const pct = Math.min(95, (count / 3) * 100);
+                statsHtml += `
+                    <div style="margin-bottom:10px;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:4px;">
+                            <span>${name}</span><span>${Math.floor(pct)}%</span>
+                        </div>
+                        <div style="height:6px; background:#eee; border-radius:10px;">
+                            <div style="height:100%; background:var(--primary); border-radius:10px; width:${pct}%"></div>
+                        </div>
+                    </div>`;
+            });
+            document.getElementById('vibe-stats').innerHTML = statsHtml;
+        }
+
+        async function shareToWhatsApp() {
+            const card = document.getElementById('result-card');
+            const canvas = await html2canvas(card, { backgroundColor: '#ffffff', scale: 2 });
+            const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+            const file = new File([blob], 'vibe-result.png', { type: 'image/png' });
+            const text = `Check my VibeCheck result! Play here: ${window.location.href}`;
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({ files: [file], title: 'VibeCheck', text: text });
+            } else {
                 window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
             }
-        } else {
-            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
