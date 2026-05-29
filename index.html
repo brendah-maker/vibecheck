@@ -25,7 +25,6 @@
             display: flex;
             justify-content: center;
             overflow: hidden;
-            /* Animated Background */
             background-color: #000;
             background-image: 
                 radial-gradient(at 0% 0%, var(--c1) 0px, transparent 50%),
@@ -41,7 +40,7 @@
         .game-container {
             width: 100%;
             max-width: 450px;
-            height: calc(100vh - 60px); /* Space for Sticky Ad */
+            height: calc(100vh - 60px);
             padding: 24px;
             display: flex;
             flex-direction: column;
@@ -49,12 +48,10 @@
             z-index: 10;
         }
 
-        /* --- Screens --- */
         .screen { display: none; flex-direction: column; height: 100%; animation: fadeIn 0.3s ease; }
         .screen.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Progress Bar --- */
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -65,11 +62,9 @@
         }
         .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
 
-        /* --- Text Styling --- */
         #round-indicator { color: #fff; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; text-align: center; }
         #question-wording { color: #fff; font-size: 1.8rem; font-weight: 800; text-align: center; margin: 15px 0 30px 0; }
 
-        /* --- Choice Cards (Hot Take Style) --- */
         .choices-wrapper { display: flex; flex-direction: column; gap: 15px; flex-grow: 1; justify-content: center; }
         
         .choice-btn {
@@ -83,13 +78,12 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transition: transform 0.1s;
-            border-left: 6px solid var(--primary); /* Reference to Hot Take style */
+            border-left: 6px solid var(--primary);
         }
         .choice-btn:active { transform: scale(0.96); background: #eee; }
 
         .vs-text { text-align: center; color: #fff; font-style: italic; font-weight: bold; opacity: 0.7; margin: 5px 0; }
 
-        /* --- Result Card --- */
         #result-card {
             background: #fff;
             padding: 24px;
@@ -99,9 +93,9 @@
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .personality-type { font-size: 2rem; font-weight: 800; color: var(--primary); margin: 10px 0; }
+        .personality-type { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 10px 0; line-height: 1.1; }
+        .vibe-blurb { font-size: 0.95rem; color: #555; margin-bottom: 20px; line-height: 1.4; font-style: italic; border-top: 1px solid #eee; padding-top: 15px; }
 
-        /* --- Sticky Ad --- */
         .ad-banner-sticky {
             position: fixed;
             bottom: 0;
@@ -141,8 +135,8 @@
     <div class="game-container">
         <!-- START SCREEN -->
         <div id="screen-start" class="screen active" style="justify-content: center; text-align: center;">
-            <h1 style="color:white; font-size: 3rem;">VibeCheck</h1>
-            <p style="color:white; opacity: 0.9;">10 Rounds. Your Style revealed.</p>
+            <h1 style="color:white; font-size: 3rem; margin-bottom:0;">VibeCheck</h1>
+            <p style="color:white; opacity: 0.9; margin-top:10px;">10 Rounds. Your Style revealed.</p>
             <button class="choice-btn" onclick="startGame()" style="border-left: none; background: var(--primary); color: white;">Start Rapid-Fire</button>
         </div>
 
@@ -150,10 +144,7 @@
         <div id="screen-game" class="screen">
             <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
             <div id="round-indicator">ROUND 1 / 10</div>
-            
-            <!-- This is the "Wording" that fills the gap from your image -->
             <div id="question-wording">Pick your Vibe</div>
-
             <div class="choices-wrapper">
                 <button class="choice-btn" id="choice-a" onclick="handleChoice('A')">Choice A</button>
                 <div class="vs-text">vs</div>
@@ -164,23 +155,21 @@
         <!-- RESULT SCREEN -->
         <div id="screen-result" class="screen">
             <div id="result-card">
-                <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold; font-size: 0.8rem; opacity: 0.6;">Your Persona</div>
+                <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold; font-size: 0.75rem; opacity: 0.5;">Your Vibe Profile</div>
                 <div class="personality-type" id="vibe-title">Aesthetic Nomad</div>
-                <div id="vibe-stats" style="text-align: left; margin-top: 15px;"></div>
-                <p style="font-size: 0.7rem; margin-top: 20px; opacity: 0.5;">Play at: YourSite.com</p>
+                <p id="vibe-description" class="vibe-blurb">Loading your vibe facts...</p>
+                <div id="vibe-stats" style="text-align: left;"></div>
+                <p style="font-size: 0.65rem; margin-top: 20px; opacity: 0.4;">CHECK YOURS AT: YOURWEBSITE.COM</p>
             </div>
 
             <button class="share-btn" onclick="shareToWhatsApp()">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.319 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.735-.981z"/></svg>
-                Post to WhatsApp Status
+                Share to Status
             </button>
         </div>
     </div>
 
-    <!-- STICKY AD SPACE -->
-    <div class="ad-banner-sticky">
-        ADVERTISEMENT BANNER SPACE (320x50)
-    </div>
+    <div class="ad-banner-sticky">ADVERTISEMENT BANNER SPACE (320x50)</div>
 
     <script>
         const gameData = [
@@ -195,6 +184,30 @@
             { cat: "Focus", a: "🎧 Music", b: "🎙️ Podcast", traitA: "Dreamer", traitB: "Learner" },
             { cat: "Ambition", a: "🎨 Create", b: "🍿 Consume", traitA: "Maker", traitB: "Enjoyer" }
         ];
+
+        // Fun Fact / Description Mapping
+        const descriptions = {
+            "High Energy": "You're basically a human espresso shot. You don't walk into rooms; you launch into them.",
+            "Mindful": "You have the inner peace of a monk in a digital world. Chaos happens, but you're just vibing.",
+            "Early Bird": "You see the sun rise and think, 'Finally, everyone else is awake.' You've done more by 8 AM than most do all day.",
+            "Night Owl": "You treat 2 AM like it's high noon. Your best ideas usually show up when the rest of the world is asleep.",
+            "Urbanist": "You navigate city blocks like a pro gamer. The sound of traffic is your favorite lo-fi beat.",
+            "Explorer": "Your 'comfort zone' is just a place you haven't left yet. You're always one flight away from a new life.",
+            "Introvert": "A high-quality person who prefers low-volume environments. Your social battery is precious cargo.",
+            "Extrovert": "You're the life of the party, even if the party is just a group chat. You thrive on that social electricity.",
+            "Soul Foodie": "You believe calories are just 'flavor points.' For you, a good meal is a spiritual experience.",
+            "Health Nut": "You're 70% kale and 30% pure determination. Your body is a temple, and the temple is thriving.",
+            "Casual": "You make 'effortless' look like an Olympic sport. You’re cool without even trying, and it shows.",
+            "Sleek": "You’re polished, professional, and probably have a zero-unread-email inbox. Pure class.",
+            "Visualizer": "You see the world in 4K resolution. You notice the colors and shadows that everyone else misses.",
+            "Thinker": "Your brain has 50 tabs open at all times. You don't just 'know' things; you analyze the 'why' behind them.",
+            "Wanderer": "A passport is your favorite accessory. You're never truly at home unless you're on the move.",
+            "Homebody": "You’ve mastered the art of 'Not Going Out.' Your couch is your kingdom and the snacks are top-tier.",
+            "Dreamer": "You live in the 'What If' and it's beautiful there. You see possibilities where others see walls.",
+            "Learner": "You’re a walking Wikipedia page. Your curiosity is your greatest superpower.",
+            "Maker": "You don't just see things; you see how to build them. You’re the architect of your own reality.",
+            "Enjoyer": "You’re the ultimate curator of good vibes. You know how to appreciate the little things that make life great."
+        };
 
         let currentStep = 0;
         let scores = {};
@@ -234,18 +247,22 @@
         function showResults() {
             showScreen('screen-result');
             const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-            const title = (sorted[0] ? sorted[0][0] : "Mysterious") + " " + (sorted[1] ? sorted[1][0] : "Soul");
-            document.getElementById('vibe-title').innerText = title;
+            
+            const topTrait = sorted[0][0];
+            const secondTrait = sorted[1] ? sorted[1][0] : "Spirit";
+            
+            document.getElementById('vibe-title').innerText = `${topTrait} ${secondTrait}`;
+            document.getElementById('vibe-description').innerText = descriptions[topTrait] || "You are a unique blend of vibes that can't be put into a box!";
 
             let statsHtml = "";
             sorted.slice(0, 3).forEach(([name, count]) => {
-                const pct = Math.min(95, (count / 3) * 100);
+                const pct = Math.min(95, (count / 4) * 100); // Visual flair: slightly exaggerated scale
                 statsHtml += `
-                    <div style="margin-bottom:10px;">
-                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:4px;">
+                    <div style="margin-bottom:12px;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:4px; font-weight:bold;">
                             <span>${name}</span><span>${Math.floor(pct)}%</span>
                         </div>
-                        <div style="height:6px; background:#eee; border-radius:10px;">
+                        <div style="height:6px; background:#f0f0f0; border-radius:10px;">
                             <div style="height:100%; background:var(--primary); border-radius:10px; width:${pct}%"></div>
                         </div>
                     </div>`;
@@ -258,7 +275,7 @@
             const canvas = await html2canvas(card, { backgroundColor: '#ffffff', scale: 2 });
             const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
             const file = new File([blob], 'vibe-result.png', { type: 'image/png' });
-            const text = `Check my VibeCheck result! Play here: ${window.location.href}`;
+            const text = `Check my VibeCheck! I'm a ${document.getElementById('vibe-title').innerText}. Play here: ${window.location.href}`;
 
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({ files: [file], title: 'VibeCheck', text: text });
