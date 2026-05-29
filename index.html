@@ -12,37 +12,53 @@
             --primary: #00f2fe;
             --secondary: #4facfe;
             --accent: #f093fb;
-            --bg: #09090b;
-            --card-bg: rgba(255, 255, 255, 0.05);
             --text: #ffffff;
+            /* Vibrant Mesh Colors */
+            --c1: #4f46e5; /* Indigo */
+            --c2: #ec4899; /* Pink */
+            --c3: #06b6d4; /* Cyan */
+            --c4: #f59e0b; /* Amber */
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(240, 147, 251, 0.15) 0px, transparent 50%);
-            color: var(--text);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden; /* Prevents bouncing on mobile */
+            overflow: hidden;
+            color: var(--text);
+            
+            /* High-Energy Animated Background */
+            background-color: #000;
+            background-image: 
+                radial-gradient(at 0% 0%, var(--c1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, var(--c2) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, var(--c3) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, var(--c4) 0px, transparent 50%);
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
         }
 
         #mobile-container {
             width: 100%;
-            max-width: 430px; /* iPhone 15 Pro Max width */
+            max-width: 430px;
             height: 100%;
             padding: 24px;
             display: flex;
             flex-direction: column;
             position: relative;
+            z-index: 10;
         }
 
         /* Screens */
@@ -60,23 +76,24 @@
         }
 
         /* Typography */
-        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -1px; }
-        p { color: rgba(255,255,255,0.6); line-height: 1.5; }
+        h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -1.5px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        p { color: rgba(255,255,255,0.9); line-height: 1.5; font-weight: 500; }
 
         /* Game UI */
         .header { margin-top: 40px; text-align: center; }
         
         .progress-bar {
             width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
+            height: 8px;
+            background: rgba(255,255,255,0.2);
             border-radius: 10px;
             margin: 20px 0;
             overflow: hidden;
+            backdrop-filter: blur(5px);
         }
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, #fff, var(--primary));
             width: 0%;
             transition: width 0.4s ease;
         }
@@ -86,60 +103,66 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 16px;
+            gap: 20px;
         }
 
         .choice-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 40px 20px;
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 45px 20px;
+            border-radius: 28px;
             text-align: center;
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.2s;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
 
         .choice-card:active {
-            transform: scale(0.96);
-            background: rgba(255,255,255,0.15);
-            border-color: var(--primary);
+            transform: scale(0.94);
+            background: rgba(255,255,255,0.3);
+            border-color: #fff;
         }
 
         /* Result Card */
         #result-card {
-            background: linear-gradient(165deg, #1e1e2d 0%, #09090b 100%);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(165deg, #1e1e2d 0%, #000 100%);
+            border: 2px solid rgba(255,255,255,0.1);
             border-radius: 32px;
             padding: 32px;
             text-align: center;
             position: relative;
             overflow: hidden;
             margin-bottom: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
 
-        .vibe-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); font-weight: 800; }
-        .vibe-title { font-size: 2.2rem; font-weight: 800; margin: 12px 0 24px 0; background: linear-gradient(to right, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .vibe-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; color: var(--primary); font-weight: 800; }
+        .vibe-title { font-size: 2.4rem; font-weight: 800; margin: 12px 0 24px 0; background: linear-gradient(to bottom, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .stat-line { margin-bottom: 16px; }
-        .stat-info { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
-        .stat-outer { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; }
-        .stat-inner { height: 100%; background: var(--secondary); border-radius: 10px; }
+        .stat-line { margin-bottom: 18px; }
+        .stat-info { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 8px; font-weight: 600; }
+        .stat-outer { height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .stat-inner { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 10px; }
 
         /* Buttons */
         .btn-main {
-            background: white;
-            color: black;
+            background: #fff;
+            color: #000;
             border: none;
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 1.1rem;
-            font-weight: 700;
+            padding: 22px;
+            border-radius: 24px;
+            font-size: 1.2rem;
+            font-weight: 800;
             cursor: pointer;
             width: 100%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
         }
+        
+        .btn-main:active { transform: scale(0.97); }
 
         .btn-whatsapp {
             background: #25D366;
@@ -147,11 +170,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             text-decoration: none;
         }
 
-        .footer-note { font-size: 0.75rem; text-align: center; margin-top: 15px; opacity: 0.5; }
+        .footer-note { font-size: 0.8rem; text-align: center; margin-top: 15px; opacity: 0.8; font-weight: 600; }
 
     </style>
 </head>
@@ -173,10 +196,10 @@
     <!-- GAME SCREEN -->
     <div id="screen-game" class="screen">
         <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
-        <div id="round-indicator" style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">ROUND 1</div>
+        <div id="round-indicator" style="font-size: 0.9rem; font-weight: 800; color: #fff; letter-spacing: 1px;">ROUND 1</div>
         <div class="question-area">
             <div class="choice-card" id="choice-a" onclick="handleSelect('A')">Choice A</div>
-            <div style="text-align: center; font-style: italic; opacity: 0.3;">vs</div>
+            <div style="text-align: center; font-style: italic; opacity: 0.6; font-weight: 800;">VS</div>
             <div class="choice-card" id="choice-b" onclick="handleSelect('B')">Choice B</div>
         </div>
     </div>
@@ -187,11 +210,11 @@
             <div class="vibe-label">Your Identity</div>
             <div class="vibe-title" id="final-vibe">The Aesthetic Explorer</div>
             <div id="stats-container"></div>
-            <div style="margin-top: 30px; font-size: 0.7rem; opacity: 0.4;">PLAYED AT YOURWEBSITE.COM</div>
+            <div style="margin-top: 30px; font-size: 0.75rem; opacity: 0.6; font-weight: 700; letter-spacing: 1px;">PLAY AT YOURWEBSITE.COM</div>
         </div>
 
         <button class="btn-main btn-whatsapp" onclick="shareToWhatsApp()">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.319 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.735-.981z"/></svg>
+            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.319 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.735-.981z"/></svg>
             Share to WhatsApp Status
         </button>
         <p class="footer-note">Challenge your friends to beat your vibe!</p>
@@ -251,15 +274,13 @@
         showScreen('screen-result');
         const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
         
-        // Name logic
         const p1 = sorted[0] ? sorted[0][0] : "Mysterious";
         const p2 = sorted[1] ? sorted[1][0] : "Spirit";
         document.getElementById('final-vibe').innerText = `${p1} ${p2}`;
 
-        // Stats logic
         let html = "";
         sorted.slice(0, 4).forEach(([name, count]) => {
-            const pct = Math.floor((count / 3) * 100); // Visual flair: weight it to look higher
+            const pct = Math.floor((count / 3) * 100); 
             const randomPct = Math.min(95, pct > 0 ? pct : Math.floor(Math.random() * 40) + 20);
             html += `
                 <div class="stat-line">
@@ -275,9 +296,8 @@
         const card = document.getElementById('result-card');
         const vibe = document.getElementById('final-vibe').innerText;
         
-        // Capture image
         const canvas = await html2canvas(card, {
-            backgroundColor: '#09090b',
+            backgroundColor: '#000',
             scale: 2,
             borderRadius: 32
         });
