@@ -171,118 +171,144 @@
 
     <div class="ad-banner-sticky">ADVERTISEMENT BANNER SPACE (320x50)</div>
 
-    <script>
-        const gameData = [
-            { cat: "Morning Vibes", a: "☕ Coffee", b: "🍵 Tea", traitA: "High Energy", traitB: "Mindful" },
-            { cat: "Daily Rhythm", a: "🌅 Sunrise", b: "🌇 Sunset", traitA: "Early Bird", traitB: "Night Owl" },
-            { cat: "Living Style", a: "🏙️ City Life", b: "🌲 Nature", traitA: "Urbanist", traitB: "Explorer" },
-            { cat: "Social Battery", a: "📱 Texting", b: "📞 Calling", traitA: "Introvert", traitB: "Extrovert" },
-            { cat: "Treat Yourself", a: "🍕 Pizza", b: "🥗 Salad", traitA: "Soul Foodie", traitB: "Health Nut" },
-            { cat: "Fashion", a: "👟 Sneakers", b: "👞 Formal", traitA: "Casual", traitB: "Sleek" },
-            { cat: "Content", a: "🎬 Movies", b: "📖 Books", traitA: "Visualizer", traitB: "Thinker" },
-            { cat: "Escapism", a: "✈️ Travel", b: "🏠 Home", traitA: "Wanderer", traitB: "Homebody" },
-            { cat: "Focus", a: "🎧 Music", b: "🎙️ Podcast", traitA: "Dreamer", traitB: "Learner" },
-            { cat: "Ambition", a: "🎨 Create", b: "🍿 Consume", traitA: "Maker", traitB: "Enjoyer" }
-        ];
+const gameData = [
+    { cat: "Morning Vibes", a: "☕ Coffee", b: "🍵 Tea", traitA: "High Energy", traitB: "Mindful" },
+    { cat: "Daily Rhythm", a: "🌅 Sunrise", b: "🌇 Sunset", traitA: "Early Bird", traitB: "Night Owl" },
+    { cat: "Living Style", a: "🏙️ City Life", b: "🌲 Nature", traitA: "Urbanist", traitB: "Explorer" },
+    { cat: "Social Battery", a: "📱 Texting", b: "📞 Calling", traitA: "Introvert", traitB: "Extrovert" },
+    { cat: "Treat Yourself", a: "🍕 Pizza", b: "🥗 Salad", traitA: "Soul Foodie", traitB: "Health Nut" },
+    { cat: "Fashion", a: "👟 Sneakers", b: "👞 Formal", traitA: "Casual", traitB: "Sleek" },
+    { cat: "Content", a: "🎬 Movies", b: "📖 Books", traitA: "Visualizer", traitB: "Thinker" },
+    { cat: "Escapism", a: "✈️ Travel", b: "🏠 Home", traitA: "Wanderer", traitB: "Homebody" },
+    { cat: "Focus", a: "🎧 Music", b: "🎙️ Podcast", traitA: "Dreamer", traitB: "Learner" },
+    { cat: "Ambition", a: "🎨 Create", b: "🍿 Consume", traitA: "Maker", traitB: "Enjoyer" }
+];
 
-        // Fun Fact / Description Mapping
-        const descriptions = {
-            "High Energy": "You're basically a human espresso shot. You don't walk into rooms; you launch into them.",
-            "Mindful": "You have the inner peace of a monk in a digital world. Chaos happens, but you're just vibing.",
-            "Early Bird": "You see the sun rise and think, 'Finally, everyone else is awake.' You've done more by 8 AM than most do all day.",
-            "Night Owl": "You treat 2 AM like it's high noon. Your best ideas usually show up when the rest of the world is asleep.",
-            "Urbanist": "You navigate city blocks like a pro gamer. The sound of traffic is your favorite lo-fi beat.",
-            "Explorer": "Your 'comfort zone' is just a place you haven't left yet. You're always one flight away from a new life.",
-            "Introvert": "A high-quality person who prefers low-volume environments. Your social battery is precious cargo.",
-            "Extrovert": "You're the life of the party, even if the party is just a group chat. You thrive on that social electricity.",
-            "Soul Foodie": "You believe calories are just 'flavor points.' For you, a good meal is a spiritual experience.",
-            "Health Nut": "You're 70% kale and 30% pure determination. Your body is a temple, and the temple is thriving.",
-            "Casual": "You make 'effortless' look like an Olympic sport. You’re cool without even trying, and it shows.",
-            "Sleek": "You’re polished, professional, and probably have a zero-unread-email inbox. Pure class.",
-            "Visualizer": "You see the world in 4K resolution. You notice the colors and shadows that everyone else misses.",
-            "Thinker": "Your brain has 50 tabs open at all times. You don't just 'know' things; you analyze the 'why' behind them.",
-            "Wanderer": "A passport is your favorite accessory. You're never truly at home unless you're on the move.",
-            "Homebody": "You’ve mastered the art of 'Not Going Out.' Your couch is your kingdom and the snacks are top-tier.",
-            "Dreamer": "You live in the 'What If' and it's beautiful there. You see possibilities where others see walls.",
-            "Learner": "You’re a walking Wikipedia page. Your curiosity is your greatest superpower.",
-            "Maker": "You don't just see things; you see how to build them. You’re the architect of your own reality.",
-            "Enjoyer": "You’re the ultimate curator of good vibes. You know how to appreciate the little things that make life great."
-        };
+const descriptions = {
+    "High Energy": "You’re basically a sentient espresso shot. You don't walk into rooms; you 'spawn' into them with 100% volume.",
+    "Mindful": "You have the inner peace of a rock in a stream. The world is ending, but you're just enjoying your tea.",
+    "Early Bird": "You’re the reason 'Rise and Grind' exists. You’ve had three epiphanies before the rest of us found our socks.",
+    "Night Owl": "You’re most powerful when everyone else is recharging. Your best work happens at 3 AM in the dark.",
+    "Urbanist": "Main Character energy. You treat the sidewalk like a runway and the subway like your personal office.",
+    "Explorer": "Your 'home' is basically just a storage unit for your luggage. You're allergic to staying in one zip code.",
+    "Introvert": "A high-quality person who is currently 5 minutes away from leaving the party. Your bed is your sanctuary.",
+    "Extrovert": "You feed on social interaction like a plant feeds on sunlight. Silence is your only enemy.",
+    "Soul Foodie": "You don't eat for fuel; you eat for the plot. Life is too short for bland salads and 'light' portions.",
+    "Health Nut": "You’re 80% water and 20% pure discipline. You’ll probably outlive us all, and look great doing it.",
+    "Casual": "You make 'zero effort' look like a luxury brand. You're the CEO of being chill.",
+    "Sleek": "You look like you've never had a hair out of place. Your aesthetic is 'unreachable but perfect.'",
+    "Visualizer": "You see the world in Pinterest boards. Everything is a photo op if you look at it long enough.",
+    "Thinker": "Your brain has 47 tabs open and 3 of them are playing music you can't find. You overanalyze everything (affectionately).",
+    "Wanderer": "You’re not lost, you’re just 'scouting.' You have a PhD in finding the coolest hidden spots.",
+    "Homebody": "You’ve mastered the art of the 'soft life.' If it requires real shoes, you’re probably not going.",
+    "Dreamer": "You live in a movie that hasn't been filmed yet. Real life is just a suggestion to you.",
+    "Learner": "You’re a walking rabbit hole. You start by looking up a recipe and end up studying 14th-century architecture.",
+    "Maker": "You see a problem and think 'I could build a fix for that.' You're the architect of your own vibes.",
+    "Enjoyer": "You’ve unlocked the secret to happiness: just liking stuff. No hate, just vibes and snacks."
+};
 
-        let currentStep = 0;
-        let scores = {};
+const redFlags = [
+    "Leaves people on read for 3-5 business days.",
+    "Calls the 'main character' in every movie they watch.",
+    "Will argue about which water brand tastes best.",
+    "Owns 5 different types of the same white t-shirt.",
+    "Actually enjoys small talk (scary).",
+    "Can't function without a specific morning ritual.",
+    "Takes 'being chill' way too seriously."
+];
 
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
+let currentStep = 0;
+let scores = {};
 
-        function startGame() {
-            showScreen('screen-game');
-            updateUI();
-        }
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
 
-        function updateUI() {
-            const q = gameData[currentStep];
-            document.getElementById('round-indicator').innerText = `ROUND ${currentStep + 1} / 10`;
-            document.getElementById('question-wording').innerText = q.cat;
-            document.getElementById('choice-a').innerText = q.a;
-            document.getElementById('choice-b').innerText = q.b;
-            document.getElementById('progress').style.width = ((currentStep / 10) * 100) + "%";
-        }
+function startGame() {
+    showScreen('screen-game');
+    updateUI();
+}
 
-        function handleChoice(side) {
-            const q = gameData[currentStep];
-            const trait = (side === 'A') ? q.traitA : q.traitB;
-            scores[trait] = (scores[trait] || 0) + 1;
+function updateUI() {
+    const q = gameData[currentStep];
+    document.getElementById('round-indicator').innerText = `ROUND ${currentStep + 1} / 10`;
+    document.getElementById('question-wording').innerText = q.cat;
+    document.getElementById('choice-a').innerText = q.a;
+    document.getElementById('choice-b').innerText = q.b;
+    document.getElementById('progress').style.width = ((currentStep / 10) * 100) + "%";
+}
 
-            currentStep++;
-            if (currentStep < gameData.length) {
-                updateUI();
-            } else {
-                showResults();
-            }
-        }
+function handleChoice(side) {
+    const q = gameData[currentStep];
+    const trait = (side === 'A') ? q.traitA : q.traitB;
+    scores[trait] = (scores[trait] || 0) + 1;
 
-        function showResults() {
-            showScreen('screen-result');
-            const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-            
-            const topTrait = sorted[0][0];
-            const secondTrait = sorted[1] ? sorted[1][0] : "Spirit";
-            
-            document.getElementById('vibe-title').innerText = `${topTrait} ${secondTrait}`;
-            document.getElementById('vibe-description').innerText = descriptions[topTrait] || "You are a unique blend of vibes that can't be put into a box!";
+    currentStep++;
+    if (currentStep < gameData.length) {
+        updateUI();
+    } else {
+        showResults();
+    }
+}
 
-            let statsHtml = "";
-            sorted.slice(0, 3).forEach(([name, count]) => {
-                const pct = Math.min(95, (count / 4) * 100); // Visual flair: slightly exaggerated scale
-                statsHtml += `
-                    <div style="margin-bottom:12px;">
-                        <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:4px; font-weight:bold;">
-                            <span>${name}</span><span>${Math.floor(pct)}%</span>
-                        </div>
-                        <div style="height:6px; background:#f0f0f0; border-radius:10px;">
-                            <div style="height:100%; background:var(--primary); border-radius:10px; width:${pct}%"></div>
-                        </div>
-                    </div>`;
-            });
-            document.getElementById('vibe-stats').innerHTML = statsHtml;
-        }
+function showResults() {
+    showScreen('screen-result');
+    const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+    
+    const topTrait = sorted[0][0];
+    const secondTrait = sorted[1] ? sorted[1][0] : "Spirit";
+    
+    // Fun Result Styling
+    document.getElementById('vibe-title').innerText = `${topTrait} ${secondTrait}`;
+    
+    // Random "Red Flag" for the fun of it
+    const randomFlag = redFlags[Math.floor(Math.random() * redFlags.length)];
+    
+    let statsHtml = `
+        <p class="vibe-blurb" style="margin-bottom:10px;">${descriptions[topTrait]}</p>
+        <div style="background: #fdf2f8; padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px dashed #ec4899;">
+            <strong style="color:#ec4899; font-size:0.7rem;">⚠️ THE RED FLAG:</strong>
+            <p style="margin: 5px 0 0 0; font-size: 0.85rem;">${randomFlag}</p>
+        </div>
+        <div style="display:flex; justify-content: space-around; margin-bottom: 20px;">
+            <div style="text-align:center;"><div style="font-size:1.2rem;">✨</div><div style="font-size:0.6rem; opacity:0.6;">AURA</div><strong>+9,000</strong></div>
+            <div style="text-align:center;"><div style="font-size:1.2rem;">🔋</div><div style="font-size:0.6rem; opacity:0.6;">ENERGY</div><strong>${Math.floor(Math.random() * 50 + 50)}%</strong></div>
+            <div style="text-align:center;"><div style="font-size:1.2rem;">🎲</div><div style="font-size:0.6rem; opacity:0.6;">CHAOS</div><strong>${Math.floor(Math.random() * 100)}%</strong></div>
+        </div>
+    `;
 
-        async function shareToWhatsApp() {
-            const card = document.getElementById('result-card');
-            const canvas = await html2canvas(card, { backgroundColor: '#ffffff', scale: 2 });
-            const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
-            const file = new File([blob], 'vibe-result.png', { type: 'image/png' });
-            const text = `Check my VibeCheck! I'm a ${document.getElementById('vibe-title').innerText}. Play here: ${window.location.href}`;
+    sorted.slice(0, 3).forEach(([name, count]) => {
+        const pct = Math.min(95, (count / 4) * 100);
+        statsHtml += `
+            <div style="margin-bottom:12px;">
+                <div style="display:flex; justify-content:space-between; font-size:0.7rem; margin-bottom:2px; font-weight:bold; color:#777;">
+                    <span>${name.toUpperCase()} LEVEL</span><span>${Math.floor(pct)}%</span>
+                </div>
+                <div style="height:4px; background:#f0f0f0; border-radius:10px;">
+                    <div style="height:100%; background:linear-gradient(90deg, var(--primary), #06b6d4); border-radius:10px; width:${pct}%"></div>
+                </div>
+            </div>`;
+    });
+    
+    document.getElementById('vibe-stats').innerHTML = statsHtml;
+    // Clear the old description slot since we integrated it into statsHtml
+    document.getElementById('vibe-description').innerText = "";
+}
 
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({ files: [file], title: 'VibeCheck', text: text });
-            } else {
-                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
-            }
-        }
-    </script>
+async function shareToWhatsApp() {
+    const card = document.getElementById('result-card');
+    const canvas = await html2canvas(card, { backgroundColor: '#ffffff', scale: 2 });
+    const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+    const file = new File([blob], 'vibe-result.png', { type: 'image/png' });
+    const text = `I just took the VibeCheck! I'm a ${document.getElementById('vibe-title').innerText}. Go see yours:`;
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'VibeCheck', text: text });
+    } else {
+        window.open(`https://wa.me/?text=${encodeURIComponent(text + " " + window.location.href)}`);
+    }
+}
+    
 </body>
 </html>
